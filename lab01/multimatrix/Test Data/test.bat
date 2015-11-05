@@ -18,6 +18,13 @@ REM файл с некорректными данными (нехватка данных)
 multimatrix.exe b1.txt a0.txt
 IF NOT ERRORLEVEL 1 GOTO err
 
+REM корректность результата нулевая матрица
+multimatrix.exe a1.txt b0.txt > output.txt
+IF ERRORLEVEL 1 GOTO err
+FC /B output.txt result0.txt
+IF ERRORLEVEL 1 GOTO err
+
+
 REM корректность результата
 multimatrix.exe a1.txt b1.txt > output.txt
 IF ERRORLEVEL 1 GOTO err

@@ -8,19 +8,23 @@
 #include <vector>
 using namespace std;
 
+const string MSG_ERR_TEMPLATE = "Not enough parameters or it's incorrect. Template: findtext.exe <file name> <text to search>";
+const string MSG_ERR_FILE_CANT_OPENED = "File can't be opened";
+const string MSG_RESULT_TEXT_NOT_FOUND = "Text not found";
+
 int PrintFoundResult(const vector<int> & elements)
 {
 	if (elements.empty())
 	{
-		cout << "Text not found";
+		cout << MSG_RESULT_TEXT_NOT_FOUND;
 		return 1;
 	}
 
-	for (auto it = elements.cbegin(); it != elements.cend(); ++it)
+	for (int element : elements)
 	{
-		cout << *it << endl;
+		cout << element << endl;
 	}
-
+	
 	return 0;
 }
 
@@ -46,7 +50,7 @@ int main(int argc, char* argv[])
 {
 	if ((argc < 3) || (strlen(argv[1]) == 0) || (strlen(argv[2]) == 0))
 	{
-		cout << "Not enough parameters or it's incorrect. Template: findtext.exe <file name> <text to search>" << endl;
+		cout << MSG_ERR_TEMPLATE << endl;
 		return 1;
 	}
 
@@ -63,7 +67,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		cout << "File can't be opened" << endl;
+		cout << MSG_ERR_FILE_CANT_OPENED << endl;
 		return 1;
 	}
 

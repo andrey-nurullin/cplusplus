@@ -15,7 +15,7 @@ const string MSG_ERR_TEMPLATE = "Template: multimatrix.exe <file_matrix1> <file_
 const string MSG_ERR_OPEN_FILE = "Error. File can't be opened: ";
 const string MSG_ERR_INCORRECT_DATA = "Incorrect file data format: ";
 
-bool PopulateMatrix(const string fileName, Matrix3x3 & matrix)
+bool PopulateMatrix(const string & fileName, Matrix3x3 & matrix)
 {
 	ifstream fileMatrix(fileName);
 	if (fileMatrix.is_open())
@@ -80,5 +80,6 @@ int main(int argc, char* argv[])
 
 	MultiplyMatrix(a, b, result);
 	PrintMatrix(result);
+
 	return 0;
 }
