@@ -8,18 +8,37 @@
 #include <cmath>
 using namespace std;
 
-const string MSG_ERR_TEMPLATE = "Not enough parameters or it's incorrect. Template: solve.exe <A> <B> <C>";
-const string MSG_ERR_INCORRECT_DATA = "One of arguments is not float";
-const string MSG_RESULT_NO_ROOT = "There is no real root";
-const string MSG_RESULT_IS_NOT_QUADRATIC = "It is not a quadratic equation, because A=0";
+enum ErrorCode 
+{
+	NO_ERROR				= 0,
+	ERR_TEMPLATE			= 1,
+	ERR_INCORRECT_DATA		= 2,
+	RESULT_NO_ROOT			= 3,
+	RESULT_IS_NOT_QUADRATIC = 4
+};
+
+const string MSG_ERROR[] = {
+	"No error",
+	"Not enough parameters or it's incorrect. Template: solve.exe <A> <B> <C>",
+	"One of arguments is not float",
+	"There is no real root",
+	"It is not a quadratic equation, because A=0"
+};
 
 struct RootsType
 {
 	double x1;
 	double x2;
+	int count;
 };
 
-bool AreEqual(const double a, const double b)
+struct QuadraticEquationResult
+{
+	RootsType root;
+	int errorCode = 0;
+};
+
+bool AreEqual(const double & a, const double & b)
 {
 	return (fabs(a - b) <= DBL_EPSILON * fmax(fabs(a), fabs(b)));
 }
@@ -32,61 +51,89 @@ bool StringToDouble(const char * str, double & number)
 	return err ? false : true;
 }
 
-double CalculateDiscriminant(double a, double b, double c)
+double CalculateDiscriminant(const double & a, const double & b, const double & c)
 {
 	return b*b - 4 * a*c;
 }
 
-RootsType CalculateEquationRoots(double a, double b, double d)
+RootsType CalculateEquationRoots(const double & a, const double & b, const double & d)
 {
-	RootsType roots;
-	roots.x1 = (-b - sqrt(d)) / (2 * a);
-	roots.x2 = (-b + sqrt(d)) / (2 * a);
-	return roots;
+	RootsType root;
+	root.x1 = (-b - sqrt(d)) / (2 * a);
+
+	if (!AreEqual(d, 0))
+	{
+		root.x2 = (-b + sqrt(d)) / (2 * a);
+		root.count = 2;
+	}
+	else
+	{
+		root.count = 1;
+	}
+	
+	return root;
 }
 
-int SolveQuadraticEquation(double a, double b, double c)
+int SolveQuadraticEquation(const double & a, const double & b, const double & c, QuadraticEquationResult & result)
 {
 	if (AreEqual(a, 0))
 	{
-		cout << MSG_RESULT_IS_NOT_QUADRATIC;
+		result.errorCode = RESULT_IS_NOT_QUADRATIC;
 		return 1;
 	}
 
 	double d = CalculateDiscriminant(a, b, c);
 	if (d < 0)
 	{
-		cout << MSG_RESULT_NO_ROOT;
+		result.errorCode = RESULT_NO_ROOT;
 		return 1;
 	}
 
-	RootsType roots = CalculateEquationRoots(a, b, d);
-	cout << fixed << setprecision(4) << roots.x1;
-	if (!AreEqual(d, 0))
-	{
-		cout << " " << roots.x2;
-	}
-	cout << endl;
+	result.root = CalculateEquationRoots(a, b, d);
 	return 0;
+}
+
+void PrintResult(const QuadraticEquationResult & result)
+{
+	if (result.errorCode == NO_ERROR)
+	{
+		RootsType root = result.root;
+		cout << fixed << setprecision(4) << root.x1;
+		if (root.count > 1)
+		{
+			cout << " " << root.x2;
+		}
+		cout << endl;
+	}
+	else
+	{
+		cout << MSG_ERROR[result.errorCode];
+	}
 }
 
 int main(int argc, char* argv[])
 {
 	if ((argc < 4))
 	{
-		cout << MSG_ERR_TEMPLATE << endl;
+		cout << ERR_TEMPLATE << endl;
 		return 1;
 	}
 
 	double a = 0;
 	double b = 0;
 	double c = 0;
+	int resultCode = 0;
+	QuadraticEquationResult SolveResult;
 
 	if (StringToDouble(argv[1], a) && StringToDouble(argv[2], b) && StringToDouble(argv[3], c))
 	{
-		return SolveQuadraticEquation(a, b, c);
+		resultCode = SolveQuadraticEquation(a, b, c, SolveResult);
 	}
+	else
+	{
+		SolveResult.errorCode = ERR_INCORRECT_DATA;
+	}
+	PrintResult(SolveResult);
 
-	cout << MSG_ERR_INCORRECT_DATA;
-	return 1;
+	return resultCode;
 }
