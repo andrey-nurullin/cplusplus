@@ -46,6 +46,19 @@ vector<int> FindLinesWithText(ifstream & fileIn, string textToSearch)
 	return lineIndexes;
 }
 
+vector<int> FindLinesInFile(const string & fileName, const string & textToSearch, bool & error)
+{
+	ifstream fileIn(fileName);
+	if (fileIn.is_open())
+	{
+		return FindLinesWithText(fileIn, textToSearch);
+	}
+	else
+	{
+		error = true;
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	if ((argc < 3) || (strlen(argv[1]) == 0) || (strlen(argv[2]) == 0))
@@ -54,22 +67,18 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	string fileName = argv[1];
-	ifstream fileIn(fileName);
+	string fileName     = argv[1];
+	string textToSearch = argv[2];
 
-	if (fileIn.is_open())
-	{
-		vector<int> foundLineIndexes;
-		string textToSearch = argv[2];
+	vector<int> foundLineIndexes;
+	bool error = false;
+	foundLineIndexes = FindLinesInFile(fileName, textToSearch, error);
 
-		foundLineIndexes = FindLinesWithText(fileIn, textToSearch);
-		return PrintFoundResult(foundLineIndexes);
-	}
-	else
+	if (error)
 	{
 		cout << MSG_ERR_FILE_CANT_OPENED << endl;
 		return 1;
 	}
 
-	return 0;
+	return PrintFoundResult(foundLineIndexes);
 }
