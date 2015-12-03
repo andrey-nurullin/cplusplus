@@ -56,6 +56,7 @@ vector<int> FindLinesInFile(const string & fileName, const string & textToSearch
 	else
 	{
 		error = true;
+		return vector<int>();
 	}
 }
 
