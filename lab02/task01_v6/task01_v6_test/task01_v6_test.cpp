@@ -27,11 +27,15 @@ BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
 		BOOST_CHECK(VerifyVectorProcessing({ 4, 0 }, {}));
 	}
 
-	BOOST_AUTO_TEST_CASE(CommonTests)
+	BOOST_AUTO_TEST_CASE(ProcessVectorCommonTests)
 	{
 		BOOST_CHECK(VerifyVectorProcessing({ 1 }, { 1 }));
 		BOOST_CHECK(VerifyVectorProcessing({ 1, 2 }, { 2, 4 }));
 		BOOST_CHECK(VerifyVectorProcessing({ 2, 1 }, { 4, 2 }));
+	}
+
+	BOOST_AUTO_TEST_CASE(ProcessVectorWithNegativeNumbers)
+	{
 		BOOST_CHECK(VerifyVectorProcessing({ -2, 1 }, { 1, -0.5 }));
 		BOOST_CHECK(VerifyVectorProcessing({ -0.5, 1 }, { 1, -2 }));
 	}
