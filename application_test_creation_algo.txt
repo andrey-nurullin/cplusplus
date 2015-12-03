@@ -1,0 +1,131 @@
+1. Создаем два проекта в одном солюшене task и taskTest
+2. В taskTest/stdafx.h  добавляем немного черной магии
+
+    //=== Немного черной магии, чтобы работали тесты ===
+    #define BOOST_TEST_MODULE MyApplicationTestsMoodule
+    #define BOOST_TEST_INCLUDED			// Используем header-only версию boost.test
+    #pragma warning (disable:4702)		// Отключаем предупреждение unreachable code
+    #include <boost\test\unit_test.hpp>
+    //==================================================
+
+3 В taskTest/stdafx.cpp
+
+    #include <boost/test/included/unit_test.hpp>
+    
+4. Из taskTest/taskTest.cpp удаляем main
+5. В диалоге свойств проекта taskTest с тестами включаем поддержку структурных исключений
+
+    Properties-> Configuration: All Configuration (selectbox), C/C++ -> Code Generation -> Enable C++ Exceptions -> Yes with SEH Exceptions (/EHa)
+    
+6. Настраиваем Post-build Step на запуск приложения taskTest с тестами по окончании сборки
+
+    Properties->Build Events->Post-Build Event->Command Line = "$(TargetPath)"
+    
+7. Начинаем:
+    
+Project task:
+
+    task.cpp:
+        
+        #include "stdafx.h"
+        #include "vectorProcessor.h"    //заголовочный файл в котором объявлены функции, реализация которых в VectorProcessor.cpp
+        #include <boost/chrono.hpp>
+        #include <iostream>
+        #include <iterator>
+
+        using namespace std;
+
+        void ReadVector(vector<double> & inputVector)
+        {
+            istream_iterator<double> start(cin);
+            istream_iterator<double> end;
+
+            vector<double> vector(start, end);
+            inputVector = vector;
+        }
+
+        void PrintVector(const vector<double> & outputVector)
+        {
+            ostream_iterator<double> output(cout, " ");
+            copy(outputVector.begin(), outputVector.end(), output);
+        }
+
+        void main()
+        {
+            vector<double> numbers;
+            ReadVector(numbers);
+            ProcessVector(numbers);
+            PrintVector(numbers);
+        }
+        
+    VectorProcessor.h:
+    
+        #pragma once
+        #include <vector>
+        void ProcessVector(std::vector<double> & numbers);
+        
+    VectorProcessor.cpp
+        
+        #include "stdafx.h"
+        #include "vectorProcessor.h"
+        #include <vector>
+        #include <algorithm>
+
+        using namespace std;
+
+        void ProcessVector(vector<double> & numbers)
+        {
+            if (numbers.empty())
+            {
+                return;
+            }
+            double minElement = *min_element(numbers.begin(), numbers.end());
+            double maxElement = *max_element(numbers.begin(), numbers.end());
+
+            transform(numbers.begin(), numbers.end(),
+                numbers.begin(), [minElement, maxElement](double item) {
+                return (item * maxElement) / minElement;
+            });
+
+            sort(numbers.begin(), numbers.end());
+        }
+
+8. Добавляем ссылку на файлы тестируемого класса в проект с тестами taskTest
+
+    Выбираем проект с тестами -> Add -> Existing Items -> Выбираем VectorProcessor.h и VectorProcessor.cpp
+    
+9. Добавляем набор тестов для класса в тестовый проект taskTest
+
+    Добавляем набор тестов в taskTest.cpp
+    
+        #include "stdafx.h"
+        #include "../task01_v6/VectorProcessor.h" //Почему нельзя написать VectorProcessor.h, ведь мы добавили ссылку?
+        #include <vector>
+
+        using namespace std;
+
+        bool VerifyVectorProcessing(vector<double> inputNumbers, const vector<double> & expectedNumbers)
+        {
+            ProcessVector(inputNumbers);
+            return (inputNumbers == expectedNumbers);
+        }
+
+        BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
+
+        BOOST_AUTO_TEST_CASE(VectorProcessing)
+        {
+            BOOST_CHECK(VerifyVectorProcessing({}, {}));
+            BOOST_CHECK(VerifyVectorProcessing({ 1 }, { 1 }));
+            BOOST_CHECK(VerifyVectorProcessing({ 1, 2 }, { 2, 4 }));
+            BOOST_CHECK(VerifyVectorProcessing({ 2, 1 }, { 2, 4 }));
+            BOOST_CHECK(VerifyVectorProcessing({ -2, 1 }, { -0.5, 1 }));
+            BOOST_CHECK(VerifyVectorProcessing({ -0.5, 1 }, { -2, 1 }));
+        }
+
+        BOOST_AUTO_TEST_CASE(VectorOutputSorted)
+        {
+            BOOST_CHECK(!VerifyVectorProcessing({ 2, 1 }, { 4, 2 }));
+        }
+
+        BOOST_AUTO_TEST_SUITE_END()
+    

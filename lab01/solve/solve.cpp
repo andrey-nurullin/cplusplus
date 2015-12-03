@@ -133,6 +133,7 @@ int main(int argc, char* argv[])
 	{
 		SolveResult.errorCode = ERR_INCORRECT_DATA;
 	}
+
 	PrintResult(SolveResult);
 
 	return resultCode;
