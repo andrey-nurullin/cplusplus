@@ -20,6 +20,16 @@ BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
 		BOOST_CHECK(VerifyVectorProcessing({}, {}));
 	}
 
+	BOOST_AUTO_TEST_CASE(VectorOutputSortedIncorrect)
+	{
+		BOOST_CHECK(!VerifyVectorProcessing({ 2, 1 }, { 4, 2 }));
+	}
+
+	BOOST_AUTO_TEST_CASE(VectorOutputSortedCorrect)
+	{
+		BOOST_CHECK(VerifyVectorProcessing({ 2, 1 }, { 2, 4 }));
+	}
+
 	BOOST_AUTO_TEST_CASE(DivisionByZero)
 	{
 		BOOST_CHECK(VerifyVectorProcessing({ 0 }, {}));
@@ -31,18 +41,13 @@ BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
 	{
 		BOOST_CHECK(VerifyVectorProcessing({ 1 }, { 1 }));
 		BOOST_CHECK(VerifyVectorProcessing({ 1, 2 }, { 2, 4 }));
-		BOOST_CHECK(VerifyVectorProcessing({ 2, 1 }, { 4, 2 }));
+		BOOST_CHECK(VerifyVectorProcessing({ 2, 1 }, { 2, 4 }));
 	}
 
 	BOOST_AUTO_TEST_CASE(ProcessVectorWithNegativeNumbers)
 	{
-		BOOST_CHECK(VerifyVectorProcessing({ -2, 1 }, { 1, -0.5 }));
-		BOOST_CHECK(VerifyVectorProcessing({ -0.5, 1 }, { 1, -2 }));
-	}
-
-	BOOST_AUTO_TEST_CASE(VectorOutputSorted)
-	{
-		BOOST_CHECK(!VerifyVectorProcessing({ 2, 1 }, { 2, 4 }));
+		BOOST_CHECK(VerifyVectorProcessing({ -2, 1 }, { -0.5, 1 }));
+		BOOST_CHECK(VerifyVectorProcessing({ -0.5, 1 }, { -2, 1 }));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

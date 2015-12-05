@@ -32,4 +32,5 @@ void ProcessVector(vector<double> & numbers)
 			return (item * maxElement) / minElement;
 	});
 
+	sort(numbers.begin(), numbers.end());
 }
