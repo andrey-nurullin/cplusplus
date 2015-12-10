@@ -9,16 +9,11 @@ string HTMLDecode(const string htmlCode)
 {
 	string decoded = htmlCode;
 
-	/*StrToStrMap htmlMap = GetHTMLMap();
+	StrToStrMap htmlMap = GetHTMLMap();
 	for (auto it = htmlMap.cbegin(); it != htmlMap.cend(); ++it)
 	{
 		SearchAndReplace(decoded, (*it).first, (*it).second);
-	}*/
-	SearchAndReplace(decoded, "&quot;", "\"");
-	SearchAndReplace(decoded, "&apos;", "'");
-	SearchAndReplace(decoded, "&lt;", "<");
-	SearchAndReplace(decoded, "&gt;", ">");
-	SearchAndReplace(decoded, "&amp;", "&");
+	}
 
 	return decoded;
 }
@@ -44,6 +39,10 @@ void SearchAndReplace(string & inputStr, const string target, const string resul
 StrToStrMap GetHTMLMap()
 {
 	map<string, string> htmlMap;
-	htmlMap["&quot"] = "\"";
+	htmlMap["&quot;"] = "\"";
+	htmlMap["&apos;"] = "'";
+	htmlMap["&lt;"]   = "<";
+	htmlMap["&gt;"]   = ">";
+	htmlMap["&amp;"]  = "&";
 	return htmlMap;	
 }
