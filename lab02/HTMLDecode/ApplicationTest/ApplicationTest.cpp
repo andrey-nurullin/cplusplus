@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool VerifyHTMLDecoding(string encodedString, string expectedString)
+bool VerifyHTMLDecoding(const string encodedString, const string expectedString)
 {
 	string decoded = HTMLDecode(encodedString);
 	return decoded == expectedString;

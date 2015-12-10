@@ -9,23 +9,29 @@ string HTMLDecode(const string htmlCode)
 {
 	string decoded = htmlCode;
 
+	string target = "&quot;";
+	string result = "\"";
+	SearchAndReplace(decoded, target, result);
+
+	return decoded;
+}
+
+void SearchAndReplace(string & inputStr, const string target, const string result)
+{
 	size_t searchPosition = 0;
 	bool isElementFound = true;
-	while (isElementFound) 
+	while (isElementFound)
 	{
-		searchPosition = decoded.find("&quot;", searchPosition);
+		searchPosition = inputStr.find(target, searchPosition);
 		if (searchPosition == string::npos)
 		{
 			isElementFound = false;
 			continue;
 		}
 
-		decoded.replace(searchPosition, 6, "\"");
-
-		searchPosition += 1;
+		inputStr.replace(searchPosition, target.length(), result);
+		searchPosition += result.length();
 	}
-
-	return decoded;
 }
 
 map<string, string> GetHTMLMap()
