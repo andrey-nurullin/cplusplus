@@ -58,8 +58,9 @@ BOOST_AUTO_TEST_SUITE(ApplicationTests)
 
 	BOOST_AUTO_TEST_CASE(RandomElementsCountReplace)
 	{
+		BOOST_CHECK(VerifyHTMLDecoding("&quot;&apos;&lt;&gt;&amp;", "\"'<>&"));
 		BOOST_CHECK(VerifyHTMLDecoding("hello&quot;world cd<&lt;", "hello\"world cd<<"));
-		BOOST_CHECK(VerifyHTMLDecoding("&lt;hello&quot;world cd<&lt;The End&gt;", "<hello\"world cd<<The End>"));
+		BOOST_CHECK(VerifyHTMLDecoding("&lt;&lt;hello&quot;world cd<&lt;The End&gt;&gt;", "<<hello\"world cd<<The End>>"));
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
