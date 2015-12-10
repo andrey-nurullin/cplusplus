@@ -11,18 +11,17 @@ bool AreEqual(const double & a, const double & b)
 	return (fabs(a - b) <= DBL_EPSILON * fmax(fabs(a), fabs(b)));
 }
 
-void ProcessVector(vector<double> & numbers)
+bool ProcessVector(vector<double> & numbers)
 {
 	if (numbers.empty())
 	{
-		return;
+		return false;
 	}
 
 	double minElement = *min_element(numbers.begin(), numbers.end());
 	if (AreEqual(minElement, 0))
 	{
-		numbers.clear();
-		return;
+		return false;
 	}
 
 	double maxElement = *max_element(numbers.begin(), numbers.end());
@@ -33,4 +32,5 @@ void ProcessVector(vector<double> & numbers)
 	});
 
 	sort(numbers.begin(), numbers.end());
+	return true;
 }

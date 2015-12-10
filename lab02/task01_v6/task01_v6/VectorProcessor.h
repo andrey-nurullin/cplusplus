@@ -2,4 +2,4 @@
 
 #include <vector>
 
-void ProcessVector(std::vector<double> & numbers);
+bool ProcessVector(std::vector<double> & numbers);

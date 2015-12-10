@@ -13,16 +13,16 @@ bool VerifyVectorProcessing(vector<double> inputNumbers, const vector<double> & 
 	return (inputNumbers == expectedNumbers);
 }
 
+bool IsVectorProcessingSuccess(vector<double> inputNumbers)
+{
+	return ProcessVector(inputNumbers);
+}
+
 BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
 
 	BOOST_AUTO_TEST_CASE(EmptyArrayProcess)
 	{
 		BOOST_CHECK(VerifyVectorProcessing({}, {}));
-	}
-
-	BOOST_AUTO_TEST_CASE(VectorOutputSortedIncorrect)
-	{
-		BOOST_CHECK(!VerifyVectorProcessing({ 2, 1 }, { 4, 2 }));
 	}
 
 	BOOST_AUTO_TEST_CASE(VectorOutputSortedCorrect)
@@ -32,9 +32,8 @@ BOOST_AUTO_TEST_SUITE(VectorProcessingTests)
 
 	BOOST_AUTO_TEST_CASE(DivisionByZero)
 	{
-		BOOST_CHECK(VerifyVectorProcessing({ 0 }, {}));
-		BOOST_CHECK(!VerifyVectorProcessing({ -4, 0 }, {}));
-		BOOST_CHECK(VerifyVectorProcessing({ 4, 0 }, {}));
+		BOOST_CHECK(!IsVectorProcessingSuccess({ 0 }));
+		BOOST_CHECK(!IsVectorProcessingSuccess({ 4, 0 }));
 	}
 
 	BOOST_AUTO_TEST_CASE(ProcessVectorCommonTests)
