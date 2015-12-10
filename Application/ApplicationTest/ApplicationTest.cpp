@@ -5,7 +5,7 @@
 
 BOOST_AUTO_TEST_SUITE(ApplicationTests)
 
-BOOST_AUTO_TEST_CASE(VectorOutputSorted)
+BOOST_AUTO_TEST_CASE(CheckIsBoostEnabled)
 {
 	BOOST_CHECK(2*2 == 4);
 }
