@@ -1,9 +1,15 @@
 #include "stdafx.h"
 #include "Parallelepiped.h"
 
-CParallelepiped::CParallelepiped(double density)
+CParallelepiped::CParallelepiped(double density, double height)
 	: CBody("Parallelepiped", density)
+	, m_height(height)
 {
+}
+
+double CParallelepiped::GetHeight()const
+{
+	return m_height;
 }
 
 double CParallelepiped::GetVolume()const
