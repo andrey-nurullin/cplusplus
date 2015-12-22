@@ -39,5 +39,10 @@ BOOST_FIXTURE_TEST_SUITE(Parallelepiped, Parallelepiped_)
 	{
 		BOOST_CHECK_EQUAL(parallelepiped.GetLength(), expectedLength);
 	}
+	// имеет плотность
+	BOOST_AUTO_TEST_CASE(has_a_density)
+	{
+		BOOST_CHECK_EQUAL(static_cast<const CBody &>(parallelepiped).GetDensity(), expectedDensity);
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
