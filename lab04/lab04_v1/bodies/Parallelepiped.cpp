@@ -31,5 +31,7 @@ double CParallelepiped::GetVolume()const
 
 void CParallelepiped::AppendProperties(std::ostream & strm) const
 {
-	strm;
+	strm << "\theight = " << GetHeight() << std::endl
+		<< "\twidth = " << GetWidth() << std::endl
+		<< "\tlenght = " << GetLength() << std::endl;
 }
