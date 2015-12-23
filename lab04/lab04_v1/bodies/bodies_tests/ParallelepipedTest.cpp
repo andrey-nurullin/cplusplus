@@ -49,5 +49,10 @@ BOOST_FIXTURE_TEST_SUITE(Parallelepiped, Parallelepiped_)
 	{
 		BOOST_CHECK_CLOSE_FRACTION(static_cast<const CBody &>(parallelepiped).GetVolume(), expectedVolume, 1e-4);
 	}
+	// имеет массу
+	BOOST_AUTO_TEST_CASE(has_a_mass)
+	{
+		BOOST_CHECK_CLOSE_FRACTION(static_cast<const CBody &>(parallelepiped).GetMass(), expectedVolume * expectedDensity, 1e-7);
+	}
 
 BOOST_AUTO_TEST_SUITE_END()
