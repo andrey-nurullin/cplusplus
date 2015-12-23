@@ -25,5 +25,6 @@ double CCone::GetRadius()const
 
 void CCone::AppendProperties(std::ostream & strm) const
 {
-	strm;
+	strm << "\theight = " << GetHeight() << std::endl
+		<< "\tradius = " << GetRadius() << std::endl;
 }
