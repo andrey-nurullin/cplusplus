@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClInclude Include="..\Body.h" />
     <ClInclude Include="..\Cone.h" />
+    <ClInclude Include="..\Cylinder.h" />
     <ClInclude Include="..\Parallelepiped.h" />
     <ClInclude Include="..\Sphere.h" />
     <ClInclude Include="stdafx.h" />
@@ -97,10 +98,12 @@
   <ItemGroup>
     <ClCompile Include="..\Body.cpp" />
     <ClCompile Include="..\Cone.cpp" />
+    <ClCompile Include="..\Cylinder.cpp" />
     <ClCompile Include="..\Parallelepiped.cpp" />
     <ClCompile Include="..\Sphere.cpp" />
     <ClCompile Include="bodies_tests.cpp" />
     <ClCompile Include="ConeTest.cpp" />
+    <ClCompile Include="CylinderTest.cpp" />
     <ClCompile Include="ParallelepipedTest.cpp" />
     <ClCompile Include="SphereTests.cpp" />
     <ClCompile Include="stdafx.cpp">
