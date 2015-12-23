@@ -23,5 +23,19 @@ BOOST_AUTO_TEST_CASE(is_a_body)
 {
 	BOOST_CHECK(static_cast<const CBody*>(&cone));
 }
-
+// имеет плотность
+BOOST_AUTO_TEST_CASE(has_a_density)
+{
+	BOOST_CHECK_EQUAL(static_cast<const CBody &>(cone).GetDensity(), expectedDensity);
+}
+// имеет радиус
+BOOST_AUTO_TEST_CASE(has_a_radius)
+{
+	BOOST_CHECK_EQUAL(cone.GetRadius(), expectedRadius);
+}
+// имеет высоту
+BOOST_AUTO_TEST_CASE(has_a_height)
+{
+	BOOST_CHECK_EQUAL(cone.GetHeight(), expectedHeight);
+}
 BOOST_AUTO_TEST_SUITE_END()
