@@ -10,7 +10,7 @@ CCone::CCone(double density, double radius, double height)
 
 double CCone::GetVolume()const
 {
-	return 0;
+	return (m_height * M_PI * pow(m_radius, 2)) / 3;
 }
 
 double CCone::GetHeight()const

@@ -10,7 +10,7 @@ struct Cone_
 	const double expectedDensity = 13.1;
 	const double expectedRadius = 12.5;
 	const double expectedHeight = 7.7;
-	const double expectedVolume = 5;
+	const double expectedVolume = 1259.909553;
 	const CCone cone;
 	Cone_()
 		: cone(expectedDensity, expectedRadius, expectedHeight)
@@ -37,5 +37,10 @@ BOOST_AUTO_TEST_CASE(has_a_radius)
 BOOST_AUTO_TEST_CASE(has_a_height)
 {
 	BOOST_CHECK_EQUAL(cone.GetHeight(), expectedHeight);
+}
+// טלווע מבתול
+BOOST_AUTO_TEST_CASE(has_a_volume)
+{
+	BOOST_CHECK_CLOSE_FRACTION(static_cast<const CBody &>(cone).GetVolume(), expectedVolume, 1e-7);
 }
 BOOST_AUTO_TEST_SUITE_END()
